@@ -32,7 +32,31 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.category-menu {
+  padding: 30px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.gray {
+  background-color: #f9f9f9;
+}
+
+.blue {
+  color: #0672cb !important;
+}
+
+.shadow-1 {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.shadow-2 {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
