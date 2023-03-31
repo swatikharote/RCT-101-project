@@ -14,6 +14,8 @@ export default function HoverMenu({ menu, menuList }) {
     return (
         <div className="App">
             <Flex align="center" justifyContent="center" >
+
+
                 <Menu isOpen={isOpen}>
                     <MenuButton
                         variant="solid"

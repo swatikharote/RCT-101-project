@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect, useState } from "react";
+import axios from "axios"
 
 
 
@@ -10,7 +12,10 @@ import { GiHumanTarget } from "react-icons/gi"
 import { IoIosContact } from "react-icons/io"
 import { border, Box, Flex, Input, Text, Image, _groupHover, Icon, Button } from "@chakra-ui/react";
 import HoverMenu from '../components/HoverMenu';
-
+import DesktopNav from '../components/DesktopNav';
+import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from '../Context/AuthContext';
 
 
 const style = {
@@ -98,21 +103,39 @@ const menuItems = [
 ]
 
 export const Navbar = () => {
+    const [data, setData] = useState([])
+    const { name } = useContext(AuthContext)
+
+
+
+    const fetchAndRenderData = () => {
+        axios.get("https://cute-red-angelfish-tutu.cyclic.app/products").then((res) => {
+            console.log(res.data)
+        })
+    }
+
+    useEffect(() => {
+        fetchAndRenderData()
+
+    }, [])
+
     return (
         <Box style={style.navbar}>
             {/* header top div */}
 
             <Flex justifyContent={"space-around"} alignItems="center" bgColor={"#fff"}>
-                <Image src="./dell-tech.png" alt="name" width={"100px"} />
+                <Link to={"/"}>
+                    <Image src="./dell-tech.png" alt="name" width={"100px"} />
+                </Link>
                 <Flex justifyContent={"space-between"} border={"1px solid gray"} width="30%" borderRadius={"5px"}>
                     <Input type={"search"} border={"none"} />
                     <Icon as={CiSearch} fontSize="30px"></Icon>
                 </Flex>
 
                 <Flex justifyContent={"space-around"} width="30%">
-                    <Flex >
+                    {/* <Flex >
                         <Icon as={GiHumanTarget} fontSize="30px"></Icon>
-                        <Text>Sign In</Text>
+                        <Link to="/sign">  <Text>Sign In</Text></Link>
                         <Icon as={RiArrowDropDownLine} fontSize="30px"   ></Icon>
 
                     </Flex>
@@ -133,9 +156,9 @@ export const Navbar = () => {
                         <Text>Cart</Text>
                         <Icon as={RiArrowDropDownLine} fontSize="30px"   ></Icon>
 
-                    </Flex>
-
-
+                    </Flex> */}
+                    { }
+                    <DesktopNav />
 
                 </Flex>
             </Flex>
@@ -143,7 +166,6 @@ export const Navbar = () => {
             <Flex justifyContent={"space-between"} width="50%" h={'30px'} m={'5px 20px'}>
                 {menuItems?.map(m => <HoverMenu menu={m.name} menuList={m.item} />)}
             </Flex>
-
 
         </Box>
     )
