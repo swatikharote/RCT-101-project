@@ -8,6 +8,7 @@ import { GrMonitor, GrServer, GrServerCluster } from "react-icons/gr"
 import '../App.css'
 import WelcomeBack from '../components/WelcomeBack';
 import Partition from '../components/Partition';
+import DesktopNav from '../components/DesktopNav';
 
 const styles = {
     iconSize: '30px'
