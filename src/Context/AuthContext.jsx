@@ -13,6 +13,8 @@ export default function AuthContextProvider({ children }) {
 
     const [isAuth, setisAuth] = useState(false);
     const [name, setName] = useState("")
+    const [searchData, setSearchData] = useState([])
+    const [searchStr, setSearchStr] = useState("")
 
     const Login = (email, password) => {
         const res = userDetails.filter((e) => e.email == email && e.password == password)
@@ -26,8 +28,17 @@ export default function AuthContextProvider({ children }) {
         }
     }
 
+
+    const updateSearchData = (data) => {
+        setSearchData(data)
+    }
+
+    const updateSearchStr = (str) => {
+        setSearchStr(str)
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuth, Login, name }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ isAuth, Login, name, searchData, updateSearchData, searchStr, updateSearchStr }}>{children}</AuthContext.Provider>
 
 
 

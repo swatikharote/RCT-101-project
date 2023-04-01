@@ -14,7 +14,6 @@ export const AllRoutes = () => {
 
         <Routes>
             <Route path="/" element={<HomePage />}></Route>
-            <Route path="/foo" element={<Footer />}></Route>
             <Route path="/sign" element={<SignIn />}></Route>
             <Route path="/login" element={<Login />}> </Route>
             <Route path="/allProduct" element={<AllProduct />}> </Route>

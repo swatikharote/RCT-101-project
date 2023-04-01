@@ -24,19 +24,21 @@ import {
 import { Link as DomLink } from 'react-router-dom'
 import { AuthContext } from '../Context/AuthContext';
 import { useContext, useEffect } from 'react';
+import axios from 'axios';
 
 
-export default function DesktopNav() {
+export default function DesktopNav({ NAV_ITEMS }) {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-  const { name, isAuth } = useContext(AuthContext);
+  const { name, isAuth, updateSearchData } = useContext(AuthContext);
 
 
   return (
     <Stack direction={'row'} spacing={4}>
+
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label} display={isAuth}>
+        <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Link
@@ -74,21 +76,29 @@ export default function DesktopNav() {
           </Popover>
         </Box>
       ))
+
       }
     </Stack >
   );
 };
 
 const DesktopSubNav = ({ label, href, subLabel, name }) => {
+
+  const { isAuth, updateSearchData } = useContext(AuthContext);
+
+  const getAllProducts = () => {
+    axios.get(`https://cute-red-angelfish-tutu.cyclic.app/products`)
+      .then((res) => {
+        updateSearchData(res.data)
+      })
+  }
+
   return (
-    <Link
-      as={DomLink}
+    <DomLink
       to={href}
       role={'group'}
       display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
+      onClick={() => href == '/allProduct' ? getAllProducts() : ""}
     >
       <Stack direction={'row'} align={'center'}>
         <Box>
@@ -114,67 +124,7 @@ const DesktopSubNav = ({ label, href, subLabel, name }) => {
           <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
-    </Link>
+    </DomLink>
   );
 };
 
-
-const NAV_ITEMS = [
-  {
-    label: 'Sign In',
-    show: true,
-    children: [
-      {
-        label: 'Sign In',
-        subLabel: '',
-        href: '/sign',
-      },
-      {
-        label: 'Create Account',
-        subLabel: '',
-        href: '#',
-      },
-    ],
-  },
-  {
-    label: '',
-    show: false,
-    children: [
-      {
-        label: 'Log out',
-        subLabel: '',
-        href: '/',
-      }
-    ],
-  },
-  {
-    label: 'Contact us',
-    href: '#',
-    show: true,
-  },
-  {
-    label: 'In/En',
-    href: '#',
-    show: true,
-  },
-  {
-    label: 'Cart',
-    href: '#',
-    show: true,
-  },
-
-];
-
-
-const SIGN_OUT =
-{
-  label: '',
-  show: true,
-  children: [
-    {
-      label: 'Log out',
-      subLabel: '',
-      href: '/',
-    }
-  ],
-}

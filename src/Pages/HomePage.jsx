@@ -101,7 +101,6 @@ function HomePage() {
                 </Box>
             </Flex>
 
-
             <Flex w={"100%"} h="auto">
                 <Flex h="100%" flexDir={"column"} mt="12%" alignItems={"flex-start"} w={"50%"} p="0 30px">
                     <Text>EOFY SALE</Text>
@@ -122,13 +121,6 @@ function HomePage() {
             {partitionDetails?.map((item, i) => {
                 return <Partition key={i} image={item.img} imgPosition={item.position} details={item.details} />
             })}
-
-
-
-
-
-
-
         </Box>
     )
 }
