@@ -106,7 +106,7 @@ export const AllProduct = () => {
                             <Checkbox name='home' onChange={(e) => handleChangeType(e.target)}>
                                 <Text fontSize={'sm'} >Home</Text>
                             </Checkbox>
-                            <Checkbox name='business' onChange={(e) => handleChangeType(e.target)}>
+                            <Checkbox name='Business' onChange={(e) => handleChangeType(e.target)}>
                                 <Text fontSize={'sm'}>Business</Text>
                             </Checkbox>
                         </Flex>
@@ -160,7 +160,8 @@ export const AllProduct = () => {
                                     <Text>Processor :{item.Processor}</Text>
 
                                     <Text> Display : {item.Display}</Text>
-                                    <Text fontSize={"xl"} fontStyle={"italic"}> Type:{item.type}</Text>
+                                    <Text fontSize={"md"} fontStyle={"italic"}> Type:{item.type}</Text>
+                                    <Button mt={3} colorScheme='teal' variant='solid'>Add to cart</Button>
                                 </Box>
                                 <Box w={"35%"} p={2} textAlign="left" >
                                     <Text fontWeight={"bold"} fontSize={"xl"} >Price : {item.price}</Text>
