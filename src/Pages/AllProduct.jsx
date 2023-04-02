@@ -1,5 +1,6 @@
-import { Box, Flex, Heading, Image, Text, Button, Checkbox } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Text, Button, Checkbox, MenuButton, Menu, MenuList, MenuDivider, MenuItem } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
+
 import { AuthContext } from '../Context/AuthContext';
 import '../App.css';
 import axios from 'axios';
@@ -13,9 +14,11 @@ export const AllProduct = () => {
     const [type, setType] = useState([])
     const [display, setDisplay] = useState([])
     const [rating, setRating] = useState([])
+
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(0)
     const limit = 4;
+    const [sort, setSort] = useState("asc")
 
     const filterAPI = () => {
         axios.get(`https://cute-red-angelfish-tutu.cyclic.app/products?_limit=${limit}`, {
@@ -23,7 +26,9 @@ export const AllProduct = () => {
                 type: type,
                 Display: display,
                 rating: rating,
-                _page: page
+                _page: page,
+                _sort: "price",
+                _order: sort
             }
         })
             .then((resp) => {
@@ -35,11 +40,8 @@ export const AllProduct = () => {
     }
 
     useEffect(() => {
-        // if (searchStr.trim() != "" || type || display) {
         filterAPI()
-        // }
-
-    }, [type, display, rating, page])
+    }, [type, display, rating, page, sort])
 
     if (searchData.length == 0) {
         return (
@@ -73,92 +75,119 @@ export const AllProduct = () => {
     }
 
     return (
-        <Flex w={"100%"} justifyContent="space-around" pt="4">
-            <Box w={"20%"} h="auto" >
-                <Box m="3" bg="#f3f3f3" p="2">
-                    <Text className='bold blue' fontSize={'md'} align="left" >Type</Text>
-                    <Flex p="3" direction={"column"} gap="3">
-                        <Checkbox name='home' onChange={(e) => handleChangeType(e.target)}>
-                            <Text fontSize={'sm'} >Home</Text>
-                        </Checkbox>
-                        <Checkbox name='business' onChange={(e) => handleChangeType(e.target)}>
-                            <Text fontSize={'sm'}>Business</Text>
-                        </Checkbox>
-                    </Flex>
-                </Box>
-                <Box m="3" bg="#f3f3f3" p="2">
-                    <Text className='bold blue' fontSize={'md'} align="left" >Display</Text>
-                    <Flex p="3" direction={"column"} gap="3">
-                        <Checkbox name='35.5-cm. display HD (1366X768)' onChange={(e) => handleChangeDisplay(e.target)}>
-                            <Text fontSize={'sm'} >35.5-cm. display HD</Text>
-                        </Checkbox>
-                        <Checkbox name='39.6-cm. display Full HD (1920X1080)' onChange={(e) => handleChangeDisplay(e.target)}>
-                            <Text fontSize={'sm'}>39.6-cm. display Full HD </Text>
-                        </Checkbox>
 
-                    </Flex>
-                </Box>
-                <Box m="3" bg="#f3f3f3" p="2">
-                    <Text className='bold blue' fontSize={'md'} align="left" >Rating</Text>
-                    <Flex p="3" direction={"column"} gap="3">
-                        <Checkbox name='4.0' onChange={(e) => handleChangeRating(e.target)}>
-                            <Text fontSize={'sm'} >4.0</Text>
-                        </Checkbox>
-                        <Checkbox name='4.2' onChange={(e) => handleChangeRating(e.target)}>
-                            <Text fontSize={'sm'}>4.2 </Text>
-                        </Checkbox>
-                        <Checkbox name='4.3' onChange={(e) => handleChangeRating(e.target)}>
-                            <Text fontSize={'sm'}>4.3 </Text>
-                        </Checkbox>
+        <><Box textAlign={"end"} m={"4"}>
+            <Menu Flex direction='end'>
+                <MenuButton
+                    px={4}
+                    py={2}
+                    transition='all 0.2s'
+                    borderRadius='md'
+                    borderWidth='1px'
+                    _hover={{ bg: 'gray.400' }}
+                    _expanded={{ bg: 'blue.400' }}
+                    _focus={{ boxShadow: 'outline' }}
+                >
+                    Sort by
+                </MenuButton>
+                <MenuList>
+                    <MenuItem onClick={() => setSort("asc")}>Lowest Price</MenuItem>
+                    <MenuItem onClick={() => setSort("desc")}>Highest Price</MenuItem>
 
-                    </Flex>
-                </Box>
+                </MenuList>
+            </Menu>
+        </Box>
+            <Flex w={"100%"} justifyContent="space-around" pt="4">
 
-            </Box>
-
-
-            <Box w={"75%"} h="auto" >
-                {searchData?.map((item, i) => {
-                    return (
-                        <Flex w={"auto"} p={5} justifyContent="space-around" className='shadow-3' mt={"3"}>
-                            <Box w={"25%"} p={1} >
-                                <Image src={item.img} w="300px"></Image>
-                            </Box>
-                            <Box w={"35%"} p={2} textAlign="left" >
-                                <Text>Name : {item.name}</Text>
-                                <Text>Order Code : d560076win9s</Text>
-                                <Text>Rating : {item.rating}</Text>
-                                <Text fontWeight={"bold"}>Specs:    Customize</Text>
-                                <Text>Processor :{item.Processor}</Text>
-
-                                <Text> Display : {item.Display}</Text>
-                                <Text fontSize={"xl"} fontStyle={"italic"}> Type:{item.type}</Text>
-                            </Box>
-                            <Box w={"35%"} p={2} textAlign="left" >
-                                <Text fontWeight={"bold"} fontSize={"xl"} >Price : {item.price}</Text>
-                                <Text>
-                                    Price inclusive of GST. Free Delivery.</Text>
-                                <Text className='bold blue sm'>  Estimated delivery date</Text>
-                                <Text fontSize={"medium"}>  Special Offers                                        </Text>
-                                <Text className='bold blue sm'>  + Get Alienware AW310H headset worth 37,999 at 99 or</Text>
-                                <Text className='bold blue sm'>  Canon G3000 worth 317195 at 3999.</Text>
-                                <Text className='bold blue sm'>  + No Cost EMI up to 24 Months</Text>
-                                <Text className='bold' fontSize={"medium"}>  Dell Rewards Earn up to 25,000,</Text>
-                                <Text className='bold' fontSize={"medium"}>  Financing</Text>
-                                <Flex alignItems={"center"}> <Text className='bold blue sm'>  No cost EMI available.</Text>See options at checkout.</Flex>
-                            </Box>
+                <Box w={"20%"} h="auto" >
+                    <Box m="3" bg="#f3f3f3" p="2">
+                        <Text className='bold blue' fontSize={'md'} align="left" >Type</Text>
+                        <Flex p="3" direction={"column"} gap="3">
+                            <Checkbox name='home' onChange={(e) => handleChangeType(e.target)}>
+                                <Text fontSize={'sm'} >Home</Text>
+                            </Checkbox>
+                            <Checkbox name='business' onChange={(e) => handleChangeType(e.target)}>
+                                <Text fontSize={'sm'}>Business</Text>
+                            </Checkbox>
                         </Flex>
-                    )
-                })}
+                    </Box>
 
-                <Box m={"3"}>
-                    <Button isDisabled={page <= 1} onClick={() => setPage(page - 1)}>Prev</Button>
-                    <Button isDisabled="true">{page}</Button>
-                    <Button onClick={() => setPage(page + 1)}>Next</Button>
+                    <Box m="3" bg="#f3f3f3" p="2">
+                        <Text className='bold blue' fontSize={'md'} align="left" >Display</Text>
+                        <Flex p="3" direction={"column"} gap="3">
+                            <Checkbox name='35.5-cm. display HD (1366X768)' onChange={(e) => handleChangeDisplay(e.target)}>
+                                <Text fontSize={'sm'} >35.5-cm. display HD</Text>
+                            </Checkbox>
+                            <Checkbox name='39.6-cm. display Full HD (1920X1080)' onChange={(e) => handleChangeDisplay(e.target)}>
+                                <Text fontSize={'sm'}>39.6-cm. display Full HD </Text>
+                            </Checkbox>
+
+                        </Flex>
+                    </Box>
+                    <Box m="3" bg="#f3f3f3" p="2">
+                        <Text className='bold blue' fontSize={'md'} align="left" >Rating</Text>
+                        <Flex p="3" direction={"column"} gap="3">
+                            <Checkbox name='4.0' onChange={(e) => handleChangeRating(e.target)}>
+                                <Text fontSize={'sm'} >4.0</Text>
+                            </Checkbox>
+                            <Checkbox name='4.2' onChange={(e) => handleChangeRating(e.target)}>
+                                <Text fontSize={'sm'}>4.2 </Text>
+                            </Checkbox>
+                            <Checkbox name='4.3' onChange={(e) => handleChangeRating(e.target)}>
+                                <Text fontSize={'sm'}>4.3 </Text>
+                            </Checkbox>
+
+                        </Flex>
+                    </Box>
+
+
                 </Box>
-            </Box >
 
 
-        </Flex >
+                <Box w={"75%"} h="auto" >
+                    {searchData?.map((item, i) => {
+                        return (
+                            <Flex w={"auto"} p={5} justifyContent="space-around" className='shadow-3' mt={"3"}>
+
+                                <Box w={"25%"} p={1} >
+                                    <Image src={item.img} w="300px"></Image>
+                                </Box>
+                                <Box w={"35%"} p={2} textAlign="left" >
+                                    <Text>Name : {item.name}</Text>
+                                    <Text>Order Code : d560076win9s</Text>
+                                    <Text>Rating : {item.rating}</Text>
+                                    <Text fontWeight={"bold"}>Specs:    Customize</Text>
+                                    <Text>Processor :{item.Processor}</Text>
+
+                                    <Text> Display : {item.Display}</Text>
+                                    <Text fontSize={"xl"} fontStyle={"italic"}> Type:{item.type}</Text>
+                                </Box>
+                                <Box w={"35%"} p={2} textAlign="left" >
+                                    <Text fontWeight={"bold"} fontSize={"xl"} >Price : {item.price}</Text>
+                                    <Text>
+                                        Price inclusive of GST. Free Delivery.</Text>
+                                    <Text className='bold blue sm'>  Estimated delivery date</Text>
+                                    <Text fontSize={"medium"}>  Special Offers                                        </Text>
+                                    <Text className='bold blue sm'>  + Get Alienware AW310H headset worth 37,999 at 99 or</Text>
+                                    <Text className='bold blue sm'>  Canon G3000 worth 317195 at 3999.</Text>
+                                    <Text className='bold blue sm'>  + No Cost EMI up to 24 Months</Text>
+                                    <Text className='bold' fontSize={"medium"}>  Dell Rewards Earn up to 25,000,</Text>
+                                    <Text className='bold' fontSize={"medium"}>  Financing</Text>
+                                    <Flex alignItems={"center"}> <Text className='bold blue sm'>  No cost EMI available.</Text>See options at checkout.</Flex>
+                                </Box>
+                            </Flex>
+                        )
+                    })}
+
+                    <Box m={"3"}>
+                        <Button isDisabled={page <= 1} onClick={() => setPage(page - 1)}>Prev</Button>
+                        <Button isDisabled="true">{page}</Button>
+                        <Button onClick={() => setPage(page + 1)}>Next</Button>
+                    </Box>
+                </Box >
+
+
+            </Flex >
+        </>
     )
 }
