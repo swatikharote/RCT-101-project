@@ -163,7 +163,7 @@ export const Navbar = () => {
 
     const debounceSearch = useCallback(debounce((query) => {
         if (query.trim() !== "") {
-            axios.get(`https://cute-red-angelfish-tutu.cyclic.app/products?q=${query}`)
+            axios.get(`https://cute-red-angelfish-tutu.cyclic.app/products?q=${query}&_limit=4`)
                 .then((res) => {
                     updateSearchStr(query);
                     updateSearchData(res.data);

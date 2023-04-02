@@ -27,7 +27,7 @@ export const SignIn = () => {
             <Box className='shadow-2 gray' p={5} w={"30%"} gap={5} m="100px auto">
                 <Text fontSize={"40px"} fontWeight={"40"}>Sign In</Text>
                 <Input mt={5} variant='outline' placeholder='Email Adress' onChange={(e) => setEmail(e.target.value)} />
-                <Input mt={5} variant='outline' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                <Input mt={5} type="password" variant='outline' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 <Button mt={5} colorScheme='blue' onClick={handleSubmit} >Sign In</Button>
 
 
